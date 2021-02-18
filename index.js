@@ -1,4 +1,4 @@
-import gapi from "./lib/gapi";
+// import gapi from "./lib/gapi";
 
 const config = require("../../gmail.config.json");
 const metaHeaders = ["From", "Date", "Subject"];
@@ -193,6 +193,9 @@ class GmailApi {
       payload.parts.forEach(part => {
         if (part.mimeType === "text/plain") {
           result.text = atob(part.body.data.replace(/-/g, "+").replace(/_/g, "/"));
+        }
+        if (part.mimeType === "text/html") {
+          result.html = decodeURIComponent(escape(atob(part.body.data.replace(/-/g, "+").replace(/_/g, "/"))));
         }
       });
     } else {
